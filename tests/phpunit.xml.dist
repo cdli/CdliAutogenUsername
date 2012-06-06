@@ -1,0 +1,7 @@
+<phpunit colors="true" backupGlobals="false" bootstrap="./Bootstrap.php">
+    <testsuites>
+        <testsuite name="CdliAutogenUsername Test Suite">
+            <directory>./</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
