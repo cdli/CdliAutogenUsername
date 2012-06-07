@@ -42,11 +42,17 @@ class Generator implements EventManagerAwareInterface
             );
         }
 
-        // Run the filters
-        $result = $this->events()->trigger('performAction', $this, array(
-            'value' => ''
-        ));
-        return $result->last();
+        // Keep on rockin' till we find a username not currently in use
+        // (only runs once if no datasource is configured to check against)
+        do {
+            // Run the filters
+            $result = $this->events()->trigger('performAction', $this, array(
+                'value' => ''
+            ));
+            $username = $result->last();
+        } while (isset($datasource) && $datasource->isUsernameTaken($username));
+
+        return $username;
     }
 
     protected function registerPlugins()
