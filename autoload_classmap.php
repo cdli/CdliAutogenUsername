@@ -12,6 +12,5 @@ return array(
     'CdliAutogenUsername\Filter\StaticString'            => __DIR__ . '/src/CdliAutogenUsername/Filter/StaticString.php',
     'CdliAutogenUsername\Filter\FilterInterface'         => __DIR__ . '/src/CdliAutogenUsername/Filter/FilterInterface.php',
     'CdliAutogenUsername\Filter\RandomDigits'            => __DIR__ . '/src/CdliAutogenUsername/Filter/RandomDigits.php',
-    'CdliAutogenUsername\FilterLoader'                   => __DIR__ . '/src/CdliAutogenUsername/FilterLoader.php',
     'CdliAutogenUsername\DatasourceLoader'               => __DIR__ . '/src/CdliAutogenUsername/DatasourceLoader.php',
 );
