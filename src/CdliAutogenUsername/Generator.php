@@ -23,9 +23,6 @@ class Generator implements EventManagerAwareInterface
     public function __construct($options = array())
     {
         $this->options = $options;
-
-        //TODO: Load filters via broker and invoke a setup method which
-        //      will configure a listener on performAction
     }
 
     public function generate()
