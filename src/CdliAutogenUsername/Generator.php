@@ -48,17 +48,18 @@ class Generator
             $broker = $this->getFilterBroker();
             foreach ( $this->options['filters'] as $filter=>$options )
             {
-                if (!$broker->hasPlugin($filter))
+                if (!$broker->isLoaded($filter))
                 {
                     // Register the custom shortname (class alias)
                     $broker->getClassLoader()->registerPlugin(
-                        $options['filter'], 
+                        $filter,
                         __NAMESPACE__ . '\\Filter\\' . $options['filter']
                     );
                     unset($options['filter']);
 
                     // Register the plugin and it's configuration
-                    $broker->registerSpec($filter, $options);
+                    $plugin = $broker->load($filter, $options);
+                    $plugin->setEventManager($this->events());
                 }
             }
         }
