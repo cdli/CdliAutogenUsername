@@ -1,9 +1,9 @@
 <?php
 namespace CdliAutogenUsername;
 
-use Zend\Loader\PluginSpecBroker;
+use Zend\Loader\PluginBroker;
 
-class DatasourceBroker extends PluginSpecBroker
+class DatasourceBroker extends PluginBroker
 {
    protected $defaultClassLoader = 'CdliAutogenUsername\DatasourceLoader';
 
