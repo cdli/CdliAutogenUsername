@@ -16,6 +16,13 @@ class Module implements
     ServiceProviderInterface,
     ConfigProviderInterface
 {
+    protected static $options;
+
+    public function init(ModuleManager $moduleManager)
+    {
+        $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
+    }
+
     public function onBootstrap(Event $e)
     {
         $serviceManager = $e->getTarget()->getServiceManager();
@@ -56,5 +63,25 @@ class Module implements
     public function getConfig($env = NULL)
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function modulesLoaded($e)
+    {
+        $config = $e->getConfigListener()->getMergedConfig();
+        static::$options = $config['cdli-autogen-username'];
+    }
+
+    /**
+     * @TODO: Come up with a better way of handling module settings/options
+     */
+    public static function getOption($option = NULL)
+    {
+        if (is_null($option)) {
+            return static::$options;
+        }
+        if (!isset(static::$options[$option])) {
+            return null;
+        }
+        return static::$options[$option];
     }
 }
