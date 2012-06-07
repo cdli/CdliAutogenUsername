@@ -3,10 +3,14 @@ namespace CdliAutogenUsername\Filter;
 
 use Zend\EventManager\EventInterface;
 
-class RandomDigits implements FilterInterface
+class RandomDigits extends AbstractFilter
 {
     protected $digitCount = 6;
     protected $placement = 'append';
+
+    public function init()
+    {
+    }
 
     public function setOptions($options)
     {

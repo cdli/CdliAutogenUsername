@@ -3,10 +3,15 @@ namespace CdliAutogenUsername\Filter;
 
 use Zend\EventManager\EventInterface;
 
-class StaticString implements FilterInterface
+class StaticString extends AbstractFilter
 {
     protected $string = '';
     protected $placement = 'append';
+
+    public function init()
+    {
+
+    }
 
     public function setOptions($options)
     {
