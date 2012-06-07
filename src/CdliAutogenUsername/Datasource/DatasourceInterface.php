@@ -3,7 +3,7 @@ namespace CdliAutogenUsername\Datasource;
 
 interface DatasourceInterface
 {
-    public function findByUsername($username);
-    public function setUsername($username);
+    public function isUsernameTaken($username);
+    public function setOptions($options);
 }
 
