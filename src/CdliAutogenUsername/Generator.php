@@ -34,7 +34,12 @@ class Generator implements EventManagerAwareInterface
 
         // Load the datasource adapter if one was specified
         if (isset($this->options['datasource'])) {
-            $datasource = $this->getDatasourceBroker()->load($this->options['datasource']);
+            $datasource = $this->getDatasourceBroker()->load(
+                $this->options['datasource']['plugin'],
+                isset($this->options['datasource']['options'])
+                    ? $this->options['datasource']['options'] 
+                    : array()
+            );
         }
 
         // Run the filters
