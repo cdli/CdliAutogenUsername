@@ -6,12 +6,14 @@ use Zend\ModuleManager\ModuleManager,
     Zend\EventManager\StaticEventManager,
     Zend\ModuleManager\Feature\AutoloaderProviderInterface,
     Zend\ModuleManager\Feature\BootstrapListenerInterface,
+    Zend\ModuleManager\Feature\ServiceProviderInterface,
     Zend\ModuleManager\Feature\ConfigProviderInterface,
     Zend\EventManager\Event as Event;
 
 class Module implements
     BootstrapListenerInterface,
     AutoloaderProviderInterface,
+    ServiceProviderInterface,
     ConfigProviderInterface
 {
     public function onBootstrap(Event $e)
@@ -23,7 +25,17 @@ class Module implements
     public function getServiceConfiguration()
     {
         return array(
-            'factories' => array()
+            'factories' => array(
+                'CdliAutogenUsername\Generator' => function($sm) {
+                    $obj = new Generator(Module::getOption()->toArray());
+                    return $obj;
+                },
+                'CdliAutogenUsername\Datasource\ZfcUser' => function($sm) {
+                    $obj = new Datasource\ZfcUser();
+                    $obj->setMapper($sm->get('zfcuser_user_mapper'));
+                    return $obj;
+                }
+            )
         );
     }
 
