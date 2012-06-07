@@ -5,8 +5,8 @@ chdir(__DIR__);
 $previousDir = '.';
 while (!file_exists('config/application.config.php')) {
     $dir = dirname(getcwd());
-    if (file_exists('vendor/autoload.php')) {
-        require_once 'vendor/autoload.php';
+    if (file_exists($dir . '/vendor/autoload.php')) {
+        require_once $dir . '/vendor/autoload.php';
         break;
     }
     if($previousDir === $dir) {
@@ -16,7 +16,7 @@ while (!file_exists('config/application.config.php')) {
     chdir($dir);
 }
 
-if (!in_array('vendor/autoload.php',get_included_files())) {
+if (!in_array(realpath($dir . '/vendor/autoload.php'),get_included_files())) {
     defined('ZF2_PATH') || define('ZF2_PATH', getenv('ZF2_PATH') ?: '');
     require_once ZF2_PATH . 'Zend/Loader/StandardAutoloader.php';
     $loader = new Zend\Loader\StandardAutoloader(array(
