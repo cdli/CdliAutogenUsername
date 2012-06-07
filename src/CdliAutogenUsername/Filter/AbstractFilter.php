@@ -59,5 +59,22 @@ abstract class AbstractFilter implements FilterInterface, EventManagerAwareInter
         return $this->events;
     }
 
+    protected function doPlacement($src, $add, $placement)
+    {
+        switch ($placement)
+        {
+            case 'prepend':
+                $src = $add . $src;
+                break;
+            case 'append':
+                $src .= $add;
+                break;
+            case 'replace':
+                $src = $add;
+                break;
+        }
+        return $src;
+    }
+
 }
 

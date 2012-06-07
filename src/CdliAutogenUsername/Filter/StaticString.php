@@ -32,19 +32,8 @@ class StaticString extends AbstractFilter
     public function performAction(EventInterface $event)
     {
         $current = $event->getParam('value');
-        switch ($this->placement)
-        {
-            case 'prepend':
-                $current = $this->string . $current;
-                break;
-            case 'append':
-                $current .= $this->string;
-                break;
-            case 'replace':
-                $current = $this->string;
-                break;
-        }
-        $event->setParam('value', $current);
-        return $current;
+        $result = $this->doPlacement($current, $this->string, $this->placement);
+        $event->setParam('value', $result);
+        return $result;
     }
 }

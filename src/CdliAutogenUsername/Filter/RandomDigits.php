@@ -39,20 +39,9 @@ class RandomDigits extends AbstractFilter
             $randomVal .= mt_rand(0,9);
         }
 
-        switch ($this->placement)
-        {
-            case 'prepend':
-                $current = $randomVal . $current;
-                break;
-            case 'append':
-                $current .= $randomVal;
-                break;
-            case 'replace':
-                $current = $randomVal;
-                break;
-        }
-
-        $event->setParam('value', $current);
-        return $current;
+        // Inject it in the proper location
+        $result = $this->doPlacement($current, $randomVal, $this->placement);
+        $event->setParam('value', $result);
+        return $result;
     }
 }
