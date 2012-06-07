@@ -6,6 +6,6 @@ use Zend\Loader\PluginClassLoader;
 class FilterLoader extends PluginClassLoader
 {
     protected $plugins = array(
-        'randomstring' => 'CdliAutogenUsername\Filter\RandomString',
+        'randomdigits' => 'CdliAutogenUsername\Filter\RandomDigits',
     );
 }
