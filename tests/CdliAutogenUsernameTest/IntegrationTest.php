@@ -22,8 +22,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         ));
 
         $mock = $this->getMock('CdliAutogenUsername\Datasource\DatasourceInterface');
+        $mock->expects($this->any())->method('isUsernameTaken')->will($this->returnValue(false));
         $gen->getDatasourceBroker()->register('test', $mock);
-
-        var_dump($gen->generate());
+        $this->assertRegexp('/^[0-9]{5}TEST$/', $gen->generate());
     }
 }
