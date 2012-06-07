@@ -35,6 +35,8 @@ class Module implements
             'factories' => array(
                 'CdliAutogenUsername\Generator' => function($sm) {
                     $obj = new Generator(Module::getOption()->toArray());
+                    // We do this so that the SL gets injected properly
+                    $obj->setDatasourceBroker($sm->get('CdliAutogenUsername\DatasourceBroker'));
                     return $obj;
                 },
                 'CdliAutogenUsername\Datasource\ZfcUser' => function($sm) {
