@@ -44,6 +44,7 @@ class StaticString extends AbstractFilter
                 $current = $this->string;
                 break;
         }
+        $event->setParam('value', $current);
         return $current;
     }
 }

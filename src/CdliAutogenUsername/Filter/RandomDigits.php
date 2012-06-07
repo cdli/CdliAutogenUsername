@@ -51,6 +51,8 @@ class RandomDigits extends AbstractFilter
                 $current = $randomVal;
                 break;
         }
+
+        $event->setParam('value', $current);
         return $current;
     }
 }
