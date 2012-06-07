@@ -1,0 +1,55 @@
+<?php
+return array(
+    'cdli-autogen-username' => array(
+
+        'enabled'    => true,
+
+        'datasource' => array(
+
+            // The datasource plugin to use for checking username uniqueness
+            // Available options: zfcuser
+            'plugin' => 'zfcuser'
+
+        ),
+
+        'filters' => array(
+
+            // Add your own custom filter definitions here
+            // Available filters: RandomDigits, StaticString
+
+            /** Example: RandomDigits
+            'my_random_digits' => array(
+                'filter' => 'RandomDigits',
+                'options' => array(
+
+                    // Number of digits resulting number should have
+                    'digits'  => 6,
+
+                    // How to add this filter's result to result of previous filter(s)
+                    // Options: prepend, append, replace
+                    // Default: append
+                    // 'placement' => 'append'
+                ),
+            ),
+            */
+
+            /** Example: StaticString
+            'my_static_string' => array(
+                'filter' => 'StaticString',
+                 'options' => array(
+
+                    // String to add to username
+                    'string'  => 'TEST',
+
+                    // How to add result of this filter to result of previous filter(s)
+                    // Options: prepend, append, replace
+                    // Default: append
+                    // 'placement' => 'append'
+                ),
+            ),
+            */
+
+        ),
+
+    ),
+);
