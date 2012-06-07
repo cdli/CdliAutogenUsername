@@ -29,6 +29,8 @@ class Generator
 
     public function generate()
     {
+        $this->registerPlugins();
+
         // Load the datasource adapter
         $datasource = $this->getDatasourceBroker()->load($this->options['datasource']);
 
@@ -37,6 +39,29 @@ class Generator
             'value' => 'test'
         ));
         return $result->last();
+    }
+
+    protected function registerPlugins()
+    {
+        if ( count($this->options['filters']) )
+        {
+            $broker = $this->getFilterBroker();
+            foreach ( $this->options['filters'] as $filter=>$options )
+            {
+                if (!$broker->hasPlugin($filter))
+                {
+                    // Register the custom shortname (class alias)
+                    $broker->getClassLoader()->registerPlugin(
+                        $options['filter'], 
+                        __NAMESPACE__ . '\\Filter\\' . $options['filter']
+                    );
+                    unset($options['filter']);
+
+                    // Register the plugin and it's configuration
+                    $broker->registerSpec($filter, $options);
+                }
+            }
+        }
     }
 
     public function setFilterBroker(LazyLoadingBroker $loader)

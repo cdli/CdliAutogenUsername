@@ -11,7 +11,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'datasource' => 'test',
             'filters' => array(
                 'test' => array(
-                    'filter' => 'randomdigits',
+                    'filter' => 'RandomDigits',
                     'priority' => -100,
                     'options' => array( 'digits' => 5 )
                 ),
