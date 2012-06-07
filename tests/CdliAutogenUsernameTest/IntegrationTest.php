@@ -10,10 +10,13 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $gen = new Generator(array(
             'datasource' => 'test',
             'filters' => array(
-                'test' => array(
+                'digits' => array(
                     'filter' => 'RandomDigits',
-                    'priority' => -100,
-                    'options' => array( 'digits' => 5 )
+                    'options' => array( 'digits' => 5 ),
+                ),
+                'prefix' => array(
+                    'filter' => 'StaticString',
+                    'options' => array( 'string' => 'TEST' ),
                 ),
             ),
         ));
