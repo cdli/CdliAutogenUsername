@@ -59,7 +59,7 @@ class Generator implements EventManagerAwareInterface
                     unset($options['filter']);
 
                     // Register the plugin and it's configuration
-                    $plugin = $broker->load($filter, $options);
+                    $plugin = $broker->load($filter, $options['options']);
                     $plugin->setEventManager($this->events())->init();
                 }
             }
