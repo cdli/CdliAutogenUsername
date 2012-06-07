@@ -2,7 +2,7 @@
 namespace CdliAutogenUsername;
 
 use Module as modCAU;
-use Zend\Loader\LazyLoadingBroker;
+use Zend\Loader\Broker;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
@@ -79,7 +79,7 @@ class Generator implements EventManagerAwareInterface
         }
     }
 
-    public function setFilterBroker(LazyLoadingBroker $loader)
+    public function setFilterBroker(Broker $loader)
     {
         $this->filterBroker = $loader;
         return $this;
@@ -94,7 +94,7 @@ class Generator implements EventManagerAwareInterface
         return $this->filterBroker;
     }
 
-    public function setDatasourceBroker(LazyLoadingBroker $loader)
+    public function setDatasourceBroker(Broker $loader)
     {
         $this->datasourceBroker = $loader;
         return $this;
