@@ -5,8 +5,9 @@ use Module as modCAU;
 use Zend\Loader\LazyLoadingBroker;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerAwareInterface;
 
-class Generator
+class Generator implements EventManagerAwareInterface
 {
     protected $options;
 
@@ -36,7 +37,7 @@ class Generator
 
         // Run the filters
         $result = $this->events()->trigger('performAction', $this, array(
-            'value' => 'test'
+            'value' => ''
         ));
         return $result->last();
     }
@@ -59,7 +60,7 @@ class Generator
 
                     // Register the plugin and it's configuration
                     $plugin = $broker->load($filter, $options);
-                    $plugin->setEventManager($this->events());
+                    $plugin->setEventManager($this->events())->init();
                 }
             }
         }

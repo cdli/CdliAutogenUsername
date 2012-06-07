@@ -8,11 +8,6 @@ class StaticString extends AbstractFilter
     protected $string = '';
     protected $placement = 'append';
 
-    public function init()
-    {
-
-    }
-
     public function setOptions($options)
     {
         if (is_array($options) || $options instanceof \Traversable)

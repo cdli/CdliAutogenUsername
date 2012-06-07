@@ -8,10 +8,6 @@ class RandomDigits extends AbstractFilter
     protected $digitCount = 6;
     protected $placement = 'append';
 
-    public function init()
-    {
-    }
-
     public function setOptions($options)
     {
         if (is_array($options) || $options instanceof \Traversable)
