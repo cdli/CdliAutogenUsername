@@ -1,27 +1,27 @@
 <?php
 namespace CdliAutogenUsername\Datasource;
 
-use ZfcUser\Model\UserMapper;
+use ZfcUser\Service\User as UserService;
 
 class ZfcUser implements DatasourceInterface
 {
-    protected $mapper;
+    protected $service;
 
     public function isUsernameTaken($username)
     {
-        return is_object($this->getMapper()->findByUsername($username));
+        return is_object($this->getService()->getByUsername($username));
     }
 
     public function setOptions($options) {}
 
-    public function setMapper(UserMapper $mapper)
+    public function setService(UserService $service)
     {
-        $this->mapper = $mapper;
+        $this->service = $service;
         return $this;
     }
 
-    public function getMapper()
+    public function getService()
     {
-        return $this->mapper;
+        return $this->service;
     }
 }

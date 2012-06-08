@@ -41,7 +41,7 @@ class Module implements
                 },
                 'CdliAutogenUsername\Datasource\ZfcUser' => function($sm) {
                     $obj = new Datasource\ZfcUser();
-                    $obj->setMapper($sm->get('zfcuser_user_mapper'));
+                    $obj->setService($sm->get('zfcuser_user_service'));
                     return $obj;
                 }
             )
