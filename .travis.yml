@@ -1,0 +1,19 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+before_script:
+  - cd ..
+  - git clone git://github.com/zendframework/ZendSkeletonApplication.git --recursive
+  - cd ZendSkeletonApplication
+  - cd vendor && mv ~/builds/cdli/CdliAutogenUsername . && cd - >/dev/null
+  - cp vendor/CdliAutogenUsername/.travis/composer.json.dist composer.json
+  - php ./composer.phar install
+  - cp vendor/CdliAutogenUsername/.travis/application.config.php.dist config/application.config.php
+  - cp vendor/CdliAutogenUsername/tests/phpunit.xml.dist vendor/CdliAutogenUsername/tests/phpunit.xml
+
+script:
+  - cd vendor/CdliAutogenUsername/tests
+  - phpunit
