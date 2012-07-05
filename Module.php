@@ -33,11 +33,6 @@ class Module implements
                     $obj->setDatasourceBroker($sm->get('CdliAutogenUsername\DatasourceBroker'));
                     $obj->setServiceLocator($sm);
                     return $obj;
-                },
-                'CdliAutogenUsername\Datasource\ZfcUser' => function($sm) {
-                    $obj = new Datasource\ZfcUser();
-                    $obj->setMapper($sm->get('zfcuser_user_mapper'));
-                    return $obj;
                 }
             )
         );
