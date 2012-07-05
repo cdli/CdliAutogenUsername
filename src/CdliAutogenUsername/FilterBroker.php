@@ -1,13 +1,16 @@
 <?php
 namespace CdliAutogenUsername;
 
-use Zend\Loader\PluginBroker;
+use Zend\ServiceManager\AbstractPluginManager;
 
-class FilterBroker extends PluginBroker
+class FilterBroker extends AbstractPluginManager
 {
-   protected $defaultClassLoader = 'Zend\Loader\PluginClassLoader';
+    protected $invokableClasses = array(
+        'randomdigits' => 'CdliAutogenUsername\Filter\RandomDigits',
+        'staticstring' => 'CdliAutogenUsername\Filter\StaticString',
+    );
 
-    protected function validatePlugin($plugin)
+    public function validatePlugin($plugin)
     {
         if (!$plugin instanceof Filter\FilterInterface) {
             throw new \RuntimeException(get_class($plugin).' is not a filter plugin');

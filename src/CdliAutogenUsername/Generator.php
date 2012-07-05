@@ -1,13 +1,14 @@
 <?php
 namespace CdliAutogenUsername;
 
-use Module as modCAU;
-use Zend\Loader\Broker;
+use Zend\ServiceManager\AbstractPluginManager as Broker;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Generator implements EventManagerAwareInterface
+class Generator implements EventManagerAwareInterface, ServiceLocatorAwareInterface
 {
     protected $options;
 
@@ -15,12 +16,14 @@ class Generator implements EventManagerAwareInterface
 
     protected $datasourceBroker;
 
+    protected $serviceLocator;
+
     /**
      * @var EventManagerInterface
      */
     protected $events;
 
-    public function __construct($options = array())
+    public function __construct(Options\ModuleOptions $options)
     {
         $this->options = $options;
     }
@@ -30,22 +33,19 @@ class Generator implements EventManagerAwareInterface
         $this->registerPlugins();
 
         // Load the datasource adapter if one was specified
-        if (isset($this->options['datasource'])) {
-            $datasource = $this->getDatasourceBroker()->load(
-                $this->options['datasource']['plugin'],
-                isset($this->options['datasource']['options'])
-                    ? $this->options['datasource']['options'] 
-                    : array()
+        if ($datasourceOptions = $this->options->getDatasource()) {
+            $datasource = $this->getDatasourceBroker()->get(
+                $datasourceOptions['plugin'],
+                isset($datasourceOptions['options']) ? $datasourceOptions['options'] : array()
             );
+            $datasource->init($this->getServiceLocator());
         }
 
         // Keep on rockin' till we find a username not currently in use
         // (only runs once if no datasource is configured to check against)
         do {
             // Run the filters
-            $result = $this->events()->trigger('performAction', $this, array(
-                'value' => ''
-            ));
+            $result = $this->getEventManager()->trigger('performAction', $this, array('value' => ''));
             $username = $result->last();
         } while (isset($datasource) && $datasource->isUsernameTaken($username));
 
@@ -54,23 +54,16 @@ class Generator implements EventManagerAwareInterface
 
     protected function registerPlugins()
     {
-        if ( count($this->options['filters']) )
+        if ( count($this->options->getFilters()) )
         {
             $broker = $this->getFilterBroker();
-            foreach ( $this->options['filters'] as $filter=>$options )
+            foreach ( $this->options->getFilters() as $filter=>$options )
             {
-                if (!$broker->isLoaded($filter))
+                if ($broker->has($options['filter']))
                 {
-                    // Register the custom shortname (class alias)
-                    $broker->getClassLoader()->registerPlugin(
-                        $filter,
-                        __NAMESPACE__ . '\\Filter\\' . $options['filter']
-                    );
-                    unset($options['filter']);
-
-                    // Register the plugin and it's configuration
-                    $plugin = $broker->load($filter, $options['options']);
-                    $plugin->setEventManager($this->events())->init();
+                    $plugin = $broker->get($options['filter'], $options['options']);
+                    $plugin->setEventManager($this->getEventManager());
+                    $plugin->init();
                 }
             }
         }
@@ -138,11 +131,22 @@ class Generator implements EventManagerAwareInterface
      * 
      * @return EventManagerInterface
      */
-    public function events()
+    public function getEventManager()
     {
         if (!$this->events instanceof EventManagerInterface) {
             $this->setEventManager(new EventManager());
         }
         return $this->events;
+    }
+
+    public function setServiceLocator(ServiceLocatorInterface $sl)
+    {
+        $this->serviceLocator = $sl;
+        return $this;
+    }
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
     }
 }

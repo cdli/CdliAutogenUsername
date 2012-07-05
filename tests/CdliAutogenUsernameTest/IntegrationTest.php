@@ -2,43 +2,46 @@
 namespace CdliAutogenUsernameTest;
 
 use CdliAutogenUsername\Generator;
+use CdliAutogenUsername\Options\ModuleOptions;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testFilterChainsWithNoDatasourceLookup()
     {
-        $gen = new Generator(array(
+        $options = new ModuleOptions(array(
             'filters' => array(
                 'digits' => array(
-                    'filter' => 'RandomDigits',
+                    'filter' => 'randomdigits',
                     'options' => array( 'digits' => 5 ),
                 ),
                 'prefix' => array(
-                    'filter' => 'StaticString',
+                    'filter' => 'staticstring',
                     'options' => array( 'string' => 'TEST' ),
                 ),
             ),
         ));
+        $gen = new Generator($options);
         $this->assertRegexp('/^[0-9]{5}TEST$/', $gen->generate());
     }
 
     public function testFilterChainsWithDatasourceLookupWhichNeverReturnsTrue()
     {
-        $gen = new Generator(array(
+        $options = new ModuleOptions(array(
             'datasource' => array(
                 'plugin' => 'test'
             ),
             'filters' => array(
                 'digits' => array(
-                    'filter' => 'RandomDigits',
+                    'filter' => 'randomdigits',
                     'options' => array( 'digits' => 5 ),
                 ),
                 'prefix' => array(
-                    'filter' => 'StaticString',
+                    'filter' => 'staticstring',
                     'options' => array( 'string' => 'TEST' ),
                 ),
             ),
         ));
+        $gen = new Generator($options);
 
         $mock = $this->getMock('CdliAutogenUsername\Datasource\DatasourceInterface');
         $mock->expects($this->any())->method('isUsernameTaken')->will($this->returnCallback(
@@ -46,28 +49,29 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
                 return false;
             }
         ));
-        $gen->getDatasourceBroker()->register('test', $mock);
+        $gen->getDatasourceBroker()->setService('test', $mock);
 
         $this->assertRegexp('/^[0-9]{5}TEST$/', $gen->generate());
     }
 
     public function testFilterChainsWithDatasourceLookupWhichReturnsTrueOnTheThirdCheck()
     {
-        $gen = new Generator(array(
+        $options = new ModuleOptions(array(
             'datasource' => array(
                 'plugin' => 'test'
             ),
             'filters' => array(
                 'digits' => array(
-                    'filter' => 'RandomDigits',
+                    'filter' => 'randomdigits',
                     'options' => array( 'digits' => 5 ),
                 ),
                 'prefix' => array(
-                    'filter' => 'StaticString',
+                    'filter' => 'staticstring',
                     'options' => array( 'string' => 'TEST' ),
                 ),
             ),
         ));
+        $gen = new Generator($options);
 
         $counter = 0;
         $mock = $this->getMock('CdliAutogenUsername\Datasource\DatasourceInterface');
@@ -76,7 +80,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
                 return (++$counter<3);
             }
         ));
-        $gen->getDatasourceBroker()->register('test', $mock);
+        $gen->getDatasourceBroker()->setService('test', $mock);
 
         $this->assertRegexp('/^[0-9]{5}TEST$/', $gen->generate());
     }

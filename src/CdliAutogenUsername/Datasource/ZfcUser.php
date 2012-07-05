@@ -1,27 +1,36 @@
 <?php
 namespace CdliAutogenUsername\Datasource;
 
-use ZfcUser\Service\User as UserService;
+use ZfcUser\Mapper\UserInterface as UserMapper;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ZfcUser implements DatasourceInterface
 {
-    protected $service;
+    protected $mapper;
+
+    public function init(ServiceLocatorInterface $sl = NULL)
+    {
+        if ( ! $sl instanceof ServiceLocatorInterface ) {
+            throw new \InvalidArgumentException('Datasource "ZfcUser" requires instance of Service Locator');
+        }
+        $this->setMapper($sl->get('zfcuser_user_mapper'));
+    }
 
     public function isUsernameTaken($username)
     {
-        return is_object($this->getService()->getByUsername($username));
+        return is_object($this->getMapper()->findByUsername($username));
     }
 
     public function setOptions($options) {}
 
-    public function setService(UserService $service)
+    public function setMapper(UserMapper $mapper)
     {
-        $this->service = $service;
+        $this->mapper = $mapper;
         return $this;
     }
 
-    public function getService()
+    public function getMapper()
     {
-        return $this->service;
+        return $this->mapper;
     }
 }

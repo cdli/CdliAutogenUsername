@@ -10,7 +10,6 @@ return array(
     'CdliAutogenUsername\Filter\StaticString'            => __DIR__ . '/src/CdliAutogenUsername/Filter/StaticString.php',
     'CdliAutogenUsername\Filter\FilterInterface'         => __DIR__ . '/src/CdliAutogenUsername/Filter/FilterInterface.php',
     'CdliAutogenUsername\Filter\AbstractFilter'          => __DIR__ . '/src/CdliAutogenUsername/Filter/AbstractFilter.php',
-    'CdliAutogenUsername\DatasourceLoader'               => __DIR__ . '/src/CdliAutogenUsername/DatasourceLoader.php',
     'CdliAutogenUsername\Generator'                      => __DIR__ . '/src/CdliAutogenUsername/Generator.php',
     'CdliAutogenUsername\Datasource\ZfcUser'             => __DIR__ . '/src/CdliAutogenUsername/Datasource/ZfcUser.php',
     'CdliAutogenUsername\Datasource\DatasourceInterface' => __DIR__ . '/src/CdliAutogenUsername/Datasource/DatasourceInterface.php',
