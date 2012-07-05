@@ -13,6 +13,7 @@ return array(
     'CdliAutogenUsername\Generator'                      => __DIR__ . '/src/CdliAutogenUsername/Generator.php',
     'CdliAutogenUsername\Datasource\ZfcUser'             => __DIR__ . '/src/CdliAutogenUsername/Datasource/ZfcUser.php',
     'CdliAutogenUsername\Datasource\DatasourceInterface' => __DIR__ . '/src/CdliAutogenUsername/Datasource/DatasourceInterface.php',
+    'CdliAutogenUsername\Options\ModuleOptions'          => __DIR__ . '/src/CdliAutogenUsername/Options/ModuleOptions.php',
     'CdliAutogenUsername\FilterBroker'                   => __DIR__ . '/src/CdliAutogenUsername/FilterBroker.php',
     'CdliAutogenUsername\DatasourceBroker'               => __DIR__ . '/src/CdliAutogenUsername/DatasourceBroker.php',
 );
