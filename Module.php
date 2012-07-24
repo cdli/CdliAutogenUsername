@@ -15,7 +15,7 @@ class Module implements
     ConfigProviderInterface
 {
 
-    public function getServiceConfiguration()
+    public function getServiceConfig()
     {
         return array(
             'invokables' => array(
