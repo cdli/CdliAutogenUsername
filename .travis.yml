@@ -6,7 +6,7 @@ php:
 
 before_script:
   - cd ..
-  - git clone git://github.com/zendframework/ZendSkeletonApplication.git --recursive
+  - git clone git://github.com/zendframework/ZendSkeletonApplication.git
   - cd ZendSkeletonApplication
   - cd vendor && mv ~/builds/cdli/CdliAutogenUsername . && cd - >/dev/null
   - cp vendor/CdliAutogenUsername/.travis/composer.json.dist composer.json
